@@ -1,7 +1,6 @@
 import {
   Color,
   PieceType,
-  SquareModifier,
   type Board,
   type BoardPosition,
   type Piece,
@@ -91,7 +90,6 @@ export class CreateBoardService {
           position,
           color: (i + j) % 2 === 0 ? Color.WHITE : Color.BLACK,
           piece: this.getPieceInitialPosition(position) || null,
-          modifier: SquareModifier.NONE,
         };
       }
     }
