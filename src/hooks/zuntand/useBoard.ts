@@ -29,6 +29,7 @@ export const useBoard = create<BoardStore>()((set) => ({
   changePlayer: () => {
     set((state) => ({
       player: state.player === Color.WHITE ? Color.BLACK : Color.WHITE,
+      clickedSquare: null,
     }));
   },
 }));
