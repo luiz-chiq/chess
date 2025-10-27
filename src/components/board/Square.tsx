@@ -19,7 +19,7 @@ function Square({ position, color, piece, nonInteractive }: SquareProps) {
   const handleClick = () => {
     if (!position) return;
     if (nonInteractive) return;
-    if (playerColor !== piece!.color) return;
+    if (playerColor !== piece?.color) return;
     if (playerColor !== turn) return;
     setClickedSquare(position);
   };
