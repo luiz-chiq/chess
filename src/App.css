@@ -17,6 +17,10 @@
   box-sizing: border-box;
   display: flex;
   position: relative;
+
+  img {
+    pointer-events: none;
+  }
 }
 
 .square.nonInteractive {
@@ -57,6 +61,7 @@
   grid-template-columns: repeat(8, 50px);
   grid-template-rows: repeat(8, 50px);
   gap: 0;
+  user-select: none;
 }
 
 .boardHead {
