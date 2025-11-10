@@ -1,9 +1,11 @@
-import "./App.css";
+'use client';
+
 import Board from "./components/board/Board";
 import Square from "./components/board/Square";
 import { useBoard } from "./hooks/zuntand/useBoard";
+import { PieceType } from "./types/types";
 
-function App() {
+export default function Page() {
   const passTurn = useBoard((state) => state.passTurn);
   const changePlayer = useBoard((state) => state.changePlayer);
   const turn = useBoard((state) => state.turn);
@@ -13,18 +15,16 @@ function App() {
       <div className="boardHead">
         <div>
           <p>Current turn:</p>
-          <Square color={turn} nonInteractive />
-          <button onClick={passTurn}>pass turn</button>
+          <img src={`/assets/pieces/${turn}/king.svg`}/>
+          {/* <button onClick={passTurn}>pass turn</button> */}
         </div>
-        <div>
-          <p>Current player:</p>
-          <Square color={player} nonInteractive />
+        {/* <div>
+          <p>You:</p>
+          <img src={`/assets/pieces/${player}/king.svg`}/>
           <button onClick={changePlayer}>change player</button>
-        </div>
+        </div> */}
       </div>
       <Board />
     </>
   );
 }
-
-export default App;
