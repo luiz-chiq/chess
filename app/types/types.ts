@@ -25,7 +25,7 @@ export enum PieceType {
   QUEEN = "queen",
   KING = "king",
 }
-export type possibleMoves = {
-  moveset: BoardPosition[];
-  piecesToCapture: BoardPosition[];
+export type PossibleMove = {
+  newPosition: BoardPosition;
+  targetPiece: BoardPosition;
 }
