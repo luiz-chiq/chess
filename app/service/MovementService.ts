@@ -24,8 +24,8 @@ export class MovementService {
             return this.getPawnMoveset(piece, position, board);
         case PieceType.ROOK:
             return this.getRookMoveset(piece, position, board);
-        // case PieceType.KNIGHT:
-        //     return this.getKnightMoveset(piece, position, board);
+        case PieceType.KNIGHT:
+            return this.getKnightMoveset(piece, position, board);
         // case PieceType.BISHOP:
         //     return this.getBishopMoveset(piece, position, board);
         // case PieceType.QUEEN:
@@ -163,6 +163,60 @@ export class MovementService {
       console.log(possibleMoves)
       
       possibleMoves.push({ newPosition: position, targetPiece: position })
+    }
+
+    return possibleMoves;
+  }
+
+  private static getKnightMoveset(
+    piece: Piece,
+    position: BoardPosition,
+    board: Board
+  ): PossibleMove[] {
+    const possibleMoves: PossibleMove[] = [];
+
+    const rowIndex = getRowIndex(position);
+    const colIndex = getColIndex(position);
+
+    if (rowIndex + 2 <= 7 && colIndex + 1 <= 7) {
+      const movePosition = getBoardPositionByIndexes(rowIndex + 2, colIndex + 1)
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+    }
+    if (rowIndex + 2 <= 7 && colIndex - 1 >= 0) {
+      const movePosition = getBoardPositionByIndexes(rowIndex + 2, colIndex - 1)
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+    }
+    if (rowIndex - 2 >= 0 && colIndex + 1 <= 7) {
+      const movePosition = getBoardPositionByIndexes(rowIndex - 2, colIndex + 1)
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+    }
+    if (rowIndex - 2 >= 0 && colIndex - 1 >= 0) {
+      const movePosition = getBoardPositionByIndexes(rowIndex - 2, colIndex - 1)
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+    }
+    if (rowIndex + 1 <= 7 && colIndex + 2 <= 7) {
+      const movePosition = getBoardPositionByIndexes(rowIndex + 1, colIndex + 2 )
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+    }
+    if (rowIndex + 1 <= 7 && colIndex - 2 >= 0) {
+      const movePosition = getBoardPositionByIndexes(rowIndex + 1, colIndex - 2)
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+    }
+    if (rowIndex - 1 >= 0 && colIndex + 2 <= 7) {
+      const movePosition = getBoardPositionByIndexes(rowIndex - 1, colIndex + 2)
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+    }
+    if (rowIndex - 1 >= 0 && colIndex - 2 >= 0) {
+      const movePosition = getBoardPositionByIndexes(rowIndex - 1, colIndex - 2)
+      if (board.getPiece(movePosition)?.color !== piece.color)
+        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
     }
 
     return possibleMoves;
