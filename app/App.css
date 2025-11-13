@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   img {
     pointer-events: none;
@@ -21,7 +22,7 @@
   background-color: #b8aaaa;
 }
 .square.black {
-  background-color: #444444;
+  background-color: #484848;
 }
 .square.target {
   background-color: #E00202;
@@ -56,6 +57,14 @@
     transform: none;
     transition: rotate 0.3s, transform 0.3s;
   }
+}
+
+.position {
+  position: absolute;
+  color: #000;
+  font-size: 14px;
+  left: -1px;
+  top: -2px;
 }
 
 .boardContainer {
