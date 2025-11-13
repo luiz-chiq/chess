@@ -22,8 +22,8 @@ export class MovementService {
     switch (piece.type) {
         case PieceType.PAWN:
             return this.getPawnMoveset(piece, position, board);
-        // case PieceType.ROOK:
-        //     return this.getRookMoveset(piece, position, board);
+        case PieceType.ROOK:
+            return this.getRookMoveset(piece, position, board);
         // case PieceType.KNIGHT:
         //     return this.getKnightMoveset(piece, position, board);
         // case PieceType.BISHOP:
@@ -99,4 +99,72 @@ export class MovementService {
     return possibleMoves;
   }
 
+  private static getRookMoveset(
+    piece: Piece,
+    position: BoardPosition,
+    board: Board
+  ): PossibleMove[] {
+    const possibleMoves: PossibleMove[] = [];
+
+    const rowIndex = getRowIndex(position);
+    const colIndex = getColIndex(position);
+
+    const chessBoard = board.getBoard();
+    
+    let rowUp: number = rowIndex;
+    while (rowUp < 7) {
+      rowUp += 1;
+      const position = getBoardPositionByIndexes(rowUp, colIndex)
+      console.log(chessBoard[rowUp][colIndex].piece?.color, piece.color)
+      if (chessBoard[rowUp][colIndex].piece?.color === piece.color) break;
+      if (chessBoard[rowUp][colIndex].piece !== null) {
+        possibleMoves.push({ newPosition: position, targetPiece: position })
+        break;
+      }
+      
+      possibleMoves.push({ newPosition: position, targetPiece: position })
+    }
+    let rowDown: number = rowIndex;
+    while (rowDown > 0) {
+      rowDown -= 1;
+      const position = getBoardPositionByIndexes(rowDown, colIndex)
+      console.log(chessBoard[rowDown][colIndex].piece?.color, piece.color)
+      if (chessBoard[rowDown][colIndex].piece?.color === piece.color) break;
+      if (chessBoard[rowDown][colIndex].piece !== null) {
+        possibleMoves.push({ newPosition: position, targetPiece: position })
+        break;
+      }
+      
+      possibleMoves.push({ newPosition: position, targetPiece: position })
+    }
+    let colRight: number = colIndex;
+    while (colRight < 7) {
+      colRight += 1;
+      const position = getBoardPositionByIndexes(rowIndex, colRight)
+      console.log(chessBoard[rowIndex][colRight].piece?.color, piece.color)
+      if (chessBoard[rowIndex][colRight].piece?.color === piece.color) break;
+      if (chessBoard[rowIndex][colRight].piece !== null) {
+        possibleMoves.push({ newPosition: position, targetPiece: position })
+        break;
+      }
+      
+      possibleMoves.push({ newPosition: position, targetPiece: position })
+    }
+    let colLeft: number = colIndex;
+    while (colLeft > 0) {
+      colLeft -= 1;
+      const position = getBoardPositionByIndexes(rowIndex, colLeft)
+      console.log(chessBoard[rowIndex][colLeft].piece?.color, piece.color)
+      if (chessBoard[rowIndex][colLeft].piece?.color === piece.color) break;
+      if (chessBoard[rowIndex][colLeft].piece !== null) {
+        possibleMoves.push({ newPosition: position, targetPiece: position })
+        break;
+      }
+      console.log(possibleMoves)
+      
+      possibleMoves.push({ newPosition: position, targetPiece: position })
+    }
+
+    return possibleMoves;
+  }
 }
