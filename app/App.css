@@ -23,6 +23,9 @@
 .square.black {
   background-color: #444444;
 }
+.square.target {
+  background-color: #E00202;
+}
 
 .square:hover {
   cursor: pointer;
