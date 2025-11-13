@@ -8,11 +8,13 @@ interface GameState {
   clickedPiece: BoardPosition | null
   turn: Color
   possibleMoves: PossibleMove[]
+  showSquarePosition: boolean;
   movePiece: (from:BoardPosition, to: BoardPosition) => void
   setClickedPiece: (piecePosition: BoardPosition) => void
   unsetClickedPiece: () => void
   passTurn: () => void
   setPossibleMoves: (possibleMoves: PossibleMove[]) => void
+  toggleShowSquarePosition: () => void
 }
 
 
@@ -23,6 +25,7 @@ export const useGame = create<GameState>()(
       clickedPiece: null,
       turn: Color.WHITE,
       possibleMoves: [],
+      showSquarePosition: false,
       movePiece: (from, to) =>
         set((state) => {
           state.board.movePiece(from, to);
@@ -47,6 +50,9 @@ export const useGame = create<GameState>()(
         set((state) => ({
           possibleMoves: possibleMoves
         }))
-      }
+      },
+      toggleShowSquarePosition: () => set((state) => ({
+         showSquarePosition : !state.showSquarePosition
+      })),
     }),
 )
