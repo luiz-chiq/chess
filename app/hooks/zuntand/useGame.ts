@@ -1,5 +1,5 @@
 import { Board } from '@/app/types/Board'
-import { BoardPosition, Color, possibleMove } from '@/app/types/types'
+import { BoardPosition, Color, PossibleMove } from '@/app/types/types'
 import { create } from 'zustand'
 
 interface GameState {
@@ -7,12 +7,12 @@ interface GameState {
   player: Color
   clickedPiece: BoardPosition | null
   turn: Color
-  possibleMoves: possibleMove[]
+  possibleMoves: PossibleMove[]
   movePiece: (from:BoardPosition, to: BoardPosition) => void
   setClickedPiece: (piecePosition: BoardPosition) => void
   unsetClickedPiece: () => void
   passTurn: () => void
-  setPossibleMoves: (possibleMoves: possibleMove[]) => void
+  setPossibleMoves: (possibleMoves: PossibleMove[]) => void
 }
 
 
