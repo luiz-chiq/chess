@@ -77,7 +77,7 @@ export class MovementService {
       board.getPiece(getBoardPositionByIndexes(rowIndex + (direction * 2), colIndex)) === null
     
     if (isNextSquareAvailable) {
-      const movePosition = getBoardPositionByIndexes(rowIndex + (1 * direction), colIndex)
+      const movePosition = getBoardPositionByIndexes(rowIndex + direction, colIndex)
       possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
     }
 
@@ -155,16 +155,14 @@ export class MovementService {
     let colLeft: number = colIndex;
     while (colLeft > 0) {
       colLeft -= 1;
+            
       const position = getBoardPositionByIndexes(rowIndex, colLeft)
-      console.log(chessBoard[rowIndex][colLeft].piece?.color, piece.color)
-      if (chessBoard[rowIndex][colLeft].piece?.color === piece.color) break;
-      if (chessBoard[rowIndex][colLeft].piece !== null) {
-        possibleMoves.push({ newPosition: position, targetPiece: position })
-        break;
-      }
-      console.log(possibleMoves)
+      
+      if (board.getPiece(position)?.color === piece.color) break;
       
       possibleMoves.push({ newPosition: position, targetPiece: position })
+      
+      if (board.getPiece(position)) break;
     }
 
     return possibleMoves;
