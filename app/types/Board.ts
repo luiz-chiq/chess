@@ -83,4 +83,14 @@ export class Board {
         this.board[row][col].piece.type = newPieceType;
 
     }
+
+    public getKingPosition(color: Color): BoardPosition {
+        for (let i = 0; i <= 7; i++) {
+            for (let j = 0; j <= 7; j++) {
+                const piece = this.board[i][j].piece
+                if (piece?.type === PieceType.KING && piece.color === color) return getBoardPositionByIndexes(i, j)
+            }
+        }
+        return getBoardPositionByIndexes(0, 0)
+    }
 }
