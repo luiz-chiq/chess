@@ -1,13 +1,4 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 .square {
-  width: 50px;
-  height: 50px;
   overflow: hidden;
   text-align: center;
   vertical-align: middle;
@@ -18,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   img {
     pointer-events: none;
@@ -26,21 +18,14 @@
   }
 }
 
-.square.nonInteractive {
-  width: 40px;
-  height: 40px;
-}
-.square.nonInteractive:hover {
-  cursor: default;
-  border-color: transparent;
-  filter: none;
-}
-
 .square.white {
-  background-color: #b4a7a7;
+  background-color: #b8aaaa;
 }
 .square.black {
-  background-color: #474644;
+  background-color: #484848;
+}
+.square.target {
+  background-color: #E00202;
 }
 
 .square:hover {
@@ -56,9 +41,9 @@
   z-index: 20;
 
   img {
-    rotate: 7deg;
     transform: scale(1.1);
-    transition: rotate 0.3s, transform 0.3s;
+    rotate: 4deg;
+    transition: rotate 0.4s, transform 0.3s;
   }
 }
 
@@ -74,16 +59,24 @@
   }
 }
 
-.square.possibleMove {
-  border-color: rgb(255, 223, 0);
+.position {
+  position: absolute;
+  color: #000;
+  font-size: 14px;
+  left: -1px;
+  top: -2px;
+}
+
+.boardContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .board {
   display: grid;
-  grid-template-columns: repeat(8, 50px);
-  grid-template-rows: repeat(8, 50px);
-  gap: 0;
-  user-select: none;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  border: black 10px solid;
 }
 
 .boardHead {
@@ -91,13 +84,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   margin-bottom: 4rem;
+  font-size: 20px;
 
   div {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+
+    img {
+      height: 50px;
+      width: 50px;
+    }
   }
 }

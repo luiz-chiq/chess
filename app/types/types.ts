@@ -5,7 +5,6 @@ export enum Color {
 export type BoardRow = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export type BoardCollumn = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H";
 export type BoardPosition = `${BoardCollumn}${BoardRow}`;
-export type Board = Record<BoardPosition, Square>;
 export type Square = {
   position: BoardPosition;
   color: Color;
@@ -22,4 +21,8 @@ export enum PieceType {
   BISHOP = "bishop",
   QUEEN = "queen",
   KING = "king",
+}
+export type PossibleMove = {
+  newPosition: BoardPosition;
+  targetPiece: BoardPosition;
 }
