@@ -8,6 +8,8 @@ import {
 } from "../types/types";
 import { getColIndex, getRowIndex, getBoardPositionByIndexes, getRow, getCol } from "../utils/utils";
 
+type Validation = (i: number, j: number) => boolean;
+
 export class MovementService {
 
   static getPossibleMoves(
@@ -26,8 +28,8 @@ export class MovementService {
             return this.getRookMoveset(piece, position, board);
         case PieceType.KNIGHT:
             return this.getKnightMoveset(piece, position, board);
-        // case PieceType.BISHOP:
-        //     return this.getBishopMoveset(piece, position, board);
+        case PieceType.BISHOP:
+            return this.getBishopMoveset(piece, position, board);
         // case PieceType.QUEEN:
         //     return this.getQueenMoveset(piece, position, board);
         // case PieceType.KING:
@@ -218,6 +220,45 @@ export class MovementService {
       if (board.getPiece(movePosition)?.color !== piece.color)
         possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
     }
+
+    return possibleMoves;
+  }
+  
+  private static getBishopMoveset(
+    piece: Piece,
+    position: BoardPosition,
+    board: Board
+  ): PossibleMove[] {
+    const possibleMoves: PossibleMove[] = [];
+
+    const rowIndex = getRowIndex(position);
+    const colIndex = getColIndex(position);
+
+    const upRightValidation = (i: number, j: number): boolean => i < 7 && j < 7
+    const upLeftValidation = (i: number, j: number): boolean => i < 7 && j > 0
+    const downRightValidation = (i: number, j: number): boolean => i > 0 && j < 7
+    const downLeftValidation = (i: number, j: number): boolean => i > 0 && j > 0
+    
+    const getDiagonalMoveset = (validation: Validation, verticalDirection: number, horizontalDirection: number) => {
+      let i: number = rowIndex;
+      let j: number = colIndex;
+      while (validation(i, j)) {
+        i += verticalDirection;
+        j += horizontalDirection;
+
+        const position = getBoardPositionByIndexes(i, j)
+
+        if (board.getPiece(position)?.color === piece.color) break;
+
+        possibleMoves.push({ newPosition: position, targetPiece: position })
+
+        if (board.getPiece(position)) break;
+      }
+    }
+    getDiagonalMoveset(upRightValidation, 1, 1);
+    getDiagonalMoveset(upLeftValidation, 1, -1);
+    getDiagonalMoveset(downRightValidation, -1, 1);
+    getDiagonalMoveset(downLeftValidation, -1, -1);
 
     return possibleMoves;
   }
