@@ -32,8 +32,8 @@ export class MovementService {
             return this.getBishopMoveset(piece, position, board);
         case PieceType.QUEEN:
             return this.getQueenMoveset(piece, position, board);
-        // case PieceType.KING:
-            // return this.getKingMoveset(pieace, position, board);
+        case PieceType.KING:
+            return this.getKingMoveset(piece, position, board);
         default:
             return [];
     }
@@ -270,5 +270,64 @@ export class MovementService {
     const rookMoveset = this.getRookMoveset(piece, position, board)
 
     return rookMoveset.concat(bishopMoveset);
+  }
+
+  private static getKingMoveset(
+    piece: Piece,
+    position: BoardPosition,
+    board: Board
+  ): PossibleMove[] {
+    const possibleMoves: PossibleMove[] = [];
+
+    const rowIndex = getRowIndex(position);
+    const colIndex = getColIndex(position);
+    const oppositeColor = piece.color === Color.WHITE ? Color.BLACK : Color.WHITE;
+
+    const opponentKingPosition = board.getKingPosition(oppositeColor)
+    const opponentKingRowIndex = getRowIndex(opponentKingPosition);
+    const opponentKingColIndex = getColIndex(opponentKingPosition);
+
+    const circle = this.getKingMovementCircle(rowIndex, colIndex)
+
+    const opponentKingCircle = this.getKingMovementCircle(opponentKingRowIndex, opponentKingColIndex);
+    
+    circle.filter((position) => opponentKingCircle.includes(position))
+    
+    circle.forEach((position) => {
+      if (opponentKingCircle.includes(position)) return;
+      if (board.getPiece(position)?.color === piece.color) return;
+      possibleMoves.push({ newPosition: position, targetPiece: position })
+    })
+
+    return possibleMoves;
+  }
+
+  private static getKingMovementCircle(rowIndex: number, colIndex: number): BoardPosition[] {
+
+    const circle: BoardPosition[] = []
+
+    const rightAvailable = colIndex < 7;
+    const leftAvailable = colIndex > 0;
+    const upAvailable = rowIndex < 7;
+    const downAvailable = rowIndex > 0;
+
+    if (upAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex + 1, colIndex));
+    if (rightAvailable && upAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex + 1, colIndex + 1));
+    if (rightAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex, colIndex + 1));
+    if (downAvailable && rightAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex - 1, colIndex + 1));
+    if (downAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex - 1, colIndex));
+    if (downAvailable && leftAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex - 1, colIndex - 1));
+    if (leftAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex, colIndex - 1));
+    if (upAvailable && leftAvailable) 
+      circle.push(getBoardPositionByIndexes(rowIndex + 1, colIndex - 1));
+
+    return circle;
   }
 }
