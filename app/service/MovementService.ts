@@ -30,8 +30,8 @@ export class MovementService {
             return this.getKnightMoveset(piece, position, board);
         case PieceType.BISHOP:
             return this.getBishopMoveset(piece, position, board);
-        // case PieceType.QUEEN:
-        //     return this.getQueenMoveset(piece, position, board);
+        case PieceType.QUEEN:
+            return this.getQueenMoveset(piece, position, board);
         // case PieceType.KING:
             // return this.getKingMoveset(pieace, position, board);
         default:
@@ -259,5 +259,16 @@ export class MovementService {
     getDiagonalMoveset(downLeftValidation, -1, -1);
 
     return possibleMoves;
+  }
+  
+  private static getQueenMoveset(
+    piece: Piece,
+    position: BoardPosition,
+    board: Board
+  ): PossibleMove[] {
+    const bishopMoveset = this.getBishopMoveset(piece, position, board)
+    const rookMoveset = this.getRookMoveset(piece, position, board)
+
+    return rookMoveset.concat(bishopMoveset);
   }
 }
