@@ -22,7 +22,9 @@ export enum PieceType {
   QUEEN = "queen",
   KING = "king",
 }
-export type PossibleMove = {
-  newPosition: BoardPosition;
-  targetPiece: BoardPosition;
-}
+export type PossibleMoves = Map<BoardPosition, BoardPosition>;
+// export type PossibleMoves = {
+
+//   newPosition: BoardPosition;
+//   targetPiece: BoardPosition;
+// }
