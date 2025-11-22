@@ -2,7 +2,7 @@ import { Board } from "../types/Board";
 import {
   Color,
   PieceType,
-  PossibleMove,
+  PossibleMoves,
   type BoardPosition,
   type Piece,
 } from "../types/types";
@@ -15,27 +15,30 @@ export class MovementService {
   static getPossibleMoves(
     position: BoardPosition,
     board: Board
-  ): PossibleMove[] {
+  ): PossibleMoves {
 
     const piece = board.getPiece(position)
 
-    if (piece == null) return [];
+    
+    const possibleMoves: PossibleMoves = new Map();
+
+    if (piece == null) return possibleMoves;
 
     switch (piece.type) {
         case PieceType.PAWN:
-            return this.getPawnMoveset(piece, position, board);
+            return this.getPawnMoveset(piece, position, board, possibleMoves);
         case PieceType.ROOK:
-            return this.getRookMoveset(piece, position, board);
+            return this.getRookMoveset(piece, position, board, possibleMoves);
         case PieceType.KNIGHT:
-            return this.getKnightMoveset(piece, position, board);
+            return this.getKnightMoveset(piece, position, board, possibleMoves);
         case PieceType.BISHOP:
-            return this.getBishopMoveset(piece, position, board);
+            return this.getBishopMoveset(piece, position, board, possibleMoves);
         case PieceType.QUEEN:
-            return this.getQueenMoveset(piece, position, board);
+            return this.getQueenMoveset(piece, position, board, possibleMoves);
         case PieceType.KING:
-            return this.getKingMoveset(piece, position, board);
+            return this.getKingMoveset(piece, position, board, possibleMoves);
         default:
-            return [];
+            return possibleMoves;
     }
   }
 
@@ -53,9 +56,9 @@ export class MovementService {
   private static getPawnMoveset(
     piece: Piece,
     position: BoardPosition,
-    board: Board
-  ): PossibleMove[] {
-    const possibleMoves: PossibleMove[] = [];
+    board: Board,
+    possibleMoves: PossibleMoves
+  ): PossibleMoves {
 
     const rowIndex = getRowIndex(position);
     const colIndex = getColIndex(position);
@@ -65,11 +68,12 @@ export class MovementService {
     const direction = piece.color === Color.WHITE ? 1 : -1;
     const chessBoard = board.getBoard();
 
+    if (rowIndex >= 7 || rowIndex <= 0) return possibleMoves;
+
     const isFirstMove = 
       (piece.color === Color.WHITE && rowIndex == 1) ||
        piece.color === Color.BLACK && rowIndex == 6;
     const isNextSquareAvailable: boolean = 
-      rowIndex < 8 &&
       board.getPiece(getBoardPositionByIndexes(rowIndex + direction, colIndex)) === null
     const isSecondSquareAvaliable: boolean =
       isFirstMove &&
@@ -78,12 +82,12 @@ export class MovementService {
     
     if (isNextSquareAvailable) {
       const movePosition = getBoardPositionByIndexes(rowIndex + direction, colIndex)
-      possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+      possibleMoves.set(movePosition, movePosition);
     }
 
     if (isSecondSquareAvaliable) {
       const movePosition = getBoardPositionByIndexes(rowIndex + (2 * direction), colIndex)
-      possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+      possibleMoves.set(movePosition, movePosition);
     }
     const canTakeRightDiagonal = rightAvailable && 
       chessBoard[rowIndex + direction][colIndex + 1].piece?.color === oppositeColor;
@@ -92,21 +96,23 @@ export class MovementService {
 
     if (canTakeRightDiagonal) {
       const movePosition = getBoardPositionByIndexes(rowIndex + direction, colIndex + 1)
-      possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+      possibleMoves.set(movePosition, movePosition);
     }
     if (canTakeLeftDiagonal) {
       const movePosition = getBoardPositionByIndexes(rowIndex + direction, colIndex - 1)
-      possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+      possibleMoves.set(movePosition, movePosition);
     }
+
+    // possibleMoves.set("A5", "B5");
     return possibleMoves;
   }
 
   private static getRookMoveset(
     piece: Piece,
     position: BoardPosition,
-    board: Board
-  ): PossibleMove[] {
-    const possibleMoves: PossibleMove[] = [];
+    board: Board,
+    possibleMoves: PossibleMoves
+  ): PossibleMoves {
 
     const rowIndex = getRowIndex(position);
     const colIndex = getColIndex(position);
@@ -117,40 +123,37 @@ export class MovementService {
     while (rowUp < 7) {
       rowUp += 1;
       const position = getBoardPositionByIndexes(rowUp, colIndex)
-      console.log(chessBoard[rowUp][colIndex].piece?.color, piece.color)
       if (chessBoard[rowUp][colIndex].piece?.color === piece.color) break;
       if (chessBoard[rowUp][colIndex].piece !== null) {
-        possibleMoves.push({ newPosition: position, targetPiece: position })
+        possibleMoves.set(position, position)
         break;
       }
       
-      possibleMoves.push({ newPosition: position, targetPiece: position })
+      possibleMoves.set(position, position)
     }
     let rowDown: number = rowIndex;
     while (rowDown > 0) {
       rowDown -= 1;
       const position = getBoardPositionByIndexes(rowDown, colIndex)
-      console.log(chessBoard[rowDown][colIndex].piece?.color, piece.color)
       if (chessBoard[rowDown][colIndex].piece?.color === piece.color) break;
       if (chessBoard[rowDown][colIndex].piece !== null) {
-        possibleMoves.push({ newPosition: position, targetPiece: position })
+        possibleMoves.set(position, position)
         break;
       }
       
-      possibleMoves.push({ newPosition: position, targetPiece: position })
+      possibleMoves.set(position, position)
     }
     let colRight: number = colIndex;
     while (colRight < 7) {
       colRight += 1;
       const position = getBoardPositionByIndexes(rowIndex, colRight)
-      console.log(chessBoard[rowIndex][colRight].piece?.color, piece.color)
       if (chessBoard[rowIndex][colRight].piece?.color === piece.color) break;
       if (chessBoard[rowIndex][colRight].piece !== null) {
-        possibleMoves.push({ newPosition: position, targetPiece: position })
+        possibleMoves.set(position, position)
         break;
       }
       
-      possibleMoves.push({ newPosition: position, targetPiece: position })
+      possibleMoves.set(position, position)
     }
     let colLeft: number = colIndex;
     while (colLeft > 0) {
@@ -160,7 +163,7 @@ export class MovementService {
       
       if (board.getPiece(position)?.color === piece.color) break;
       
-      possibleMoves.push({ newPosition: position, targetPiece: position })
+      possibleMoves.set(position, position)
       
       if (board.getPiece(position)) break;
     }
@@ -171,9 +174,9 @@ export class MovementService {
   private static getKnightMoveset(
     piece: Piece,
     position: BoardPosition,
-    board: Board
-  ): PossibleMove[] {
-    const possibleMoves: PossibleMove[] = [];
+    board: Board,
+    possibleMoves: PossibleMoves
+  ): PossibleMoves {
 
     const rowIndex = getRowIndex(position);
     const colIndex = getColIndex(position);
@@ -181,42 +184,42 @@ export class MovementService {
     if (rowIndex + 2 <= 7 && colIndex + 1 <= 7) {
       const movePosition = getBoardPositionByIndexes(rowIndex + 2, colIndex + 1)
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
     if (rowIndex + 2 <= 7 && colIndex - 1 >= 0) {
       const movePosition = getBoardPositionByIndexes(rowIndex + 2, colIndex - 1)
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
     if (rowIndex - 2 >= 0 && colIndex + 1 <= 7) {
       const movePosition = getBoardPositionByIndexes(rowIndex - 2, colIndex + 1)
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
     if (rowIndex - 2 >= 0 && colIndex - 1 >= 0) {
       const movePosition = getBoardPositionByIndexes(rowIndex - 2, colIndex - 1)
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
     if (rowIndex + 1 <= 7 && colIndex + 2 <= 7) {
       const movePosition = getBoardPositionByIndexes(rowIndex + 1, colIndex + 2 )
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
     if (rowIndex + 1 <= 7 && colIndex - 2 >= 0) {
       const movePosition = getBoardPositionByIndexes(rowIndex + 1, colIndex - 2)
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
     if (rowIndex - 1 >= 0 && colIndex + 2 <= 7) {
       const movePosition = getBoardPositionByIndexes(rowIndex - 1, colIndex + 2)
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
     if (rowIndex - 1 >= 0 && colIndex - 2 >= 0) {
       const movePosition = getBoardPositionByIndexes(rowIndex - 1, colIndex - 2)
       if (board.getPiece(movePosition)?.color !== piece.color)
-        possibleMoves.push({ newPosition: movePosition, targetPiece: movePosition });
+        possibleMoves.set(movePosition, movePosition);
     }
 
     return possibleMoves;
@@ -225,9 +228,9 @@ export class MovementService {
   private static getBishopMoveset(
     piece: Piece,
     position: BoardPosition,
-    board: Board
-  ): PossibleMove[] {
-    const possibleMoves: PossibleMove[] = [];
+    board: Board,
+    possibleMoves: PossibleMoves
+  ): PossibleMoves {
 
     const rowIndex = getRowIndex(position);
     const colIndex = getColIndex(position);
@@ -248,7 +251,7 @@ export class MovementService {
 
         if (board.getPiece(position)?.color === piece.color) break;
 
-        possibleMoves.push({ newPosition: position, targetPiece: position })
+        possibleMoves.set(position, position)
 
         if (board.getPiece(position)) break;
       }
@@ -264,20 +267,23 @@ export class MovementService {
   private static getQueenMoveset(
     piece: Piece,
     position: BoardPosition,
-    board: Board
-  ): PossibleMove[] {
-    const bishopMoveset = this.getBishopMoveset(piece, position, board)
-    const rookMoveset = this.getRookMoveset(piece, position, board)
+    board: Board,
+    possibleMoves: PossibleMoves
+  ): PossibleMoves {
+    this.getBishopMoveset(piece, position, board, possibleMoves)
+    this.getRookMoveset(piece, position, board, possibleMoves)
 
-    return rookMoveset.concat(bishopMoveset);
+    
+
+    return possibleMoves;
   }
 
   private static getKingMoveset(
     piece: Piece,
     position: BoardPosition,
-    board: Board
-  ): PossibleMove[] {
-    const possibleMoves: PossibleMove[] = [];
+    board: Board,
+    possibleMoves: PossibleMoves
+  ): PossibleMoves {
 
     const rowIndex = getRowIndex(position);
     const colIndex = getColIndex(position);
@@ -296,7 +302,7 @@ export class MovementService {
     circle.forEach((position) => {
       if (opponentKingCircle.includes(position)) return;
       if (board.getPiece(position)?.color === piece.color) return;
-      possibleMoves.push({ newPosition: position, targetPiece: position })
+      possibleMoves.set(position, position)
     })
 
     return possibleMoves;
