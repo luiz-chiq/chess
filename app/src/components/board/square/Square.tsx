@@ -1,9 +1,9 @@
 'use client';
 
 import { BoardPosition, Color } from "@/app/src/types/types";
-import "../../../../App.css";
 import { useGame } from "../../../hooks/zustand/useGame";
 import SquareContent from "./SquareContent";
+import styles from "./styles.module.css";
 
 interface SquareProps {
   color: Color;
@@ -17,9 +17,9 @@ function Square({ position, color }: SquareProps) {
   const piece = board.getPiece(position);
 
   return (
-    <div className={`square ${color}
-      ${clickedPiecePosition == position ? "clicked" : "notClicked"}
-      ${piece && piece.color == turn ? "allyPiece" : ""}
+    <div className={`${styles.square} ${styles[color]}
+      ${clickedPiecePosition == position ? styles.clicked : styles.notClicked}
+      ${piece && piece.color == turn && styles.allyPiece}
       `}>
         <SquareContent position={position} />
     </div>

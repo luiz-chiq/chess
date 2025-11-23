@@ -1,0 +1,57 @@
+.square {
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 24px;
+  border: none;
+  border: transparent solid 2px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.square.white {
+  background-color: #c1d1e9;
+}
+.square.black {
+  background-color: #4376a1;
+}
+.square.checked {
+  background-color: #E00202;
+}
+
+.square.allyPiece:hover {
+  cursor: pointer;
+  z-index: 10;
+
+  img {
+    transform: scale(1.1);
+    rotate: -4deg;
+    transition: rotate 0.4s, transform 0.3s;
+  }
+}
+
+.square.clicked {
+  border-color: rgb(31, 219, 137);
+  filter: drop-shadow(0 0 1rem rgb(31, 219, 137));
+  transition: border-color 0.3s, filter 0.3s;
+  z-index: 20;
+
+  img {
+    transform: scale(1.2);
+    rotate: 4deg;
+    transition: rotate 0.4s, transform 0.3s;
+  }
+}
+
+.square.notClicked {
+  transition: border-color 0.3s, filter 0.3s;
+
+  img {
+    rotate: none;
+    transform: none;
+    transition: rotate 0.3s, transform 0.3s;
+  }
+}
