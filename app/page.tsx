@@ -28,6 +28,7 @@ export default function Page() {
 
   return (
     <>
+      <button onClick={() => router.replace('/login') }>Logout</button>
       <div className="boardHead">
         <div>
           <p>Current turn:</p>
