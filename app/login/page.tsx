@@ -12,12 +12,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [inputError, setInputError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const setStoreUsername = useUser((state) => state.setUsername);
   const setStoreToken = useUser((state) => state.setToken);
-
-
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,6 +81,7 @@ export default function LoginPage() {
         <div style={{ visibility: error ? 'visible' : 'hidden' }} className={styles.error}>{error}</div>
         <div className={styles.buttonGroup}>
           <button 
+            type="button"
             className={styles.createAccount} 
             onClick={(e) => e.preventDefault()}>
             Criar conta
