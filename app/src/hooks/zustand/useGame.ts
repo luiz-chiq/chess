@@ -18,7 +18,6 @@ interface GameState {
   blackBasket: PieceType[];
   movePiece: (from:BoardPosition, to: BoardPosition) => void
   setClickedPiece: (piecePosition: BoardPosition) => void
-  unsetClickedPiece: () => void
   passTurn: () => void
   setPossibleMoves: (possibleMoves: PossibleMoves) => void
   toggleShowSquarePosition: () => void
@@ -65,11 +64,6 @@ export const useGame = create<GameState>()(
         set((state) => ({
           possibleMoves: MovementService.getPossibleMoves(piecePosition, state.board),
           clickedPiecePosition: piecePosition
-        }))
-      },
-      unsetClickedPiece: () => {
-        set((state) => ({
-          clickedPiecePosition: null
         }))
       },
       setPossibleMoves: (possibleMoves) => {
