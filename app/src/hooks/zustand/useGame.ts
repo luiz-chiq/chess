@@ -16,7 +16,7 @@ interface GameState {
   lastMovePosition: BoardPosition | null;
   whiteBasket: PieceType[];
   blackBasket: PieceType[];
-  movePiece: (from:BoardPosition, to: BoardPosition) => void
+  movePiece: (to: BoardPosition) => void
   setClickedPiece: (piecePosition: BoardPosition) => void
   passTurn: () => void
   setPossibleMoves: (possibleMoves: PossibleMoves) => void
@@ -41,22 +41,23 @@ export const useGame = create<GameState>()(
       blackBasket: [],
       passTurn: () => 
         set((state) => {
-          state.possibleMoves.clear();
           return {
+            possibleMoves: new Map(),
             turn : state.turn == Color.WHITE ? Color.BLACK : Color.WHITE,
             clickedPiecePosition: null
           }
       }),
-      movePiece: (from, to) =>
+      movePiece: (to) =>
         set((state) => {
           const piece = state.board.getPiece(to);
           if (piece) {
             state.addPieceToBasket(piece.color, piece.type);
           }
-          MovementService.movePiece(from, to, state.board)
+          MovementService.movePiece(state.clickedPiecePosition!, to, state.board)
           state.passTurn();
-          return { 
+          return {
             lastMovePosition: to, 
+            possibleMoves: new Map(),
             checkPosition: CheckService.checkCheck(state.turn, state.board),
           };
         }),
