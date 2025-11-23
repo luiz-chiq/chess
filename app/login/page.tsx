@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authService } from "../src/services/AuthService";
+import { AuthService } from "../src/services/AuthService";
 import styles from "./login.module.css";
 import { useUser } from "../src/hooks/zustand/useUser";
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
 
     await new Promise(resolve => setTimeout(resolve, 500)); // apenas para simular a tempo da requisição
     try {
-      const response = await authService.login({ user: username, password });
+      const response = await AuthService.login({ user: username, password });
       
       if (response.data.success) { 
         setStoreUsername(username);
