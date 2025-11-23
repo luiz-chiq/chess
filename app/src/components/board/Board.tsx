@@ -1,14 +1,15 @@
 'use client';
 
-import "../../../App.css";
 import Square from "./square/Square";
 import { useGame } from "@/app/src/hooks/zustand/useGame";
+import styles from "./styles.module.css";
+
 function Board() {
   const board = useGame((state) => state.board);
 
   return (
-    <div className="boardContainer">
-      <div className="board">
+    <div className={styles.boardContainer}>
+      <div className={styles.board}>
         {board.getBoard().reverse().map((row) => 
           row.map((square) => {
             return <Square

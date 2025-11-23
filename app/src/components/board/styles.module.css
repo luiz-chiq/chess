@@ -1,0 +1,13 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  border: black 10px solid;
+  height: fit-content;
+}
+
+.boardContainer {
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+}

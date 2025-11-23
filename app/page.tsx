@@ -29,7 +29,7 @@ export default function Page() {
   return (
     <>
       <button onClick={() => router.replace('/login') }>Logout</button>
-      <div className="boardHead">
+      <div className={styles.infoBar}>
         <div>
           <p>Current turn:</p>
           <img src={`/assets/pieces/${turn}/king.svg`}/>
@@ -41,7 +41,7 @@ export default function Page() {
         </div>
       </div>
       <div className={styles.boardWrapper}>
-      <Board />
+        <Board />
       </div>
     </>
   );
