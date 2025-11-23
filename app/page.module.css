@@ -93,6 +93,12 @@ a.secondary {
   border-color: var(--button-secondary-border);
 }
 
+.boardWrapper {
+  display: flex;
+  justify-content: center;
+  height: 500px;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {

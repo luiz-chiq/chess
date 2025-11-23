@@ -38,10 +38,11 @@ export default function Page() {
         <div>
           <p>Show position:</p>
           <button onClick={toggleShowSquarePosition}>{showSquarePosition ? "Deactivate" : "Activate"}</button>
-
         </div>
       </div>
+      <div className={styles.boardWrapper}>
       <Board />
+      </div>
     </>
   );
 }
