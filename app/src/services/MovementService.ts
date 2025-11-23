@@ -10,9 +10,9 @@ import { getColIndex, getRowIndex, getBoardPositionByIndexes, getRow, getCol } f
 
 type Validation = (i: number, j: number) => boolean;
 
-export class MovementService {
+export const MovementService = {
 
-  static getPossibleMoves(
+  getPossibleMoves(
     position: BoardPosition,
     board: Board
   ): PossibleMoves {
@@ -26,23 +26,22 @@ export class MovementService {
 
     switch (piece.type) {
         case PieceType.PAWN:
-            return this.getPawnMoveset(piece, position, board, possibleMoves);
+            return getPawnMoveset(piece, position, board, possibleMoves);
         case PieceType.ROOK:
-            return this.getRookMoveset(piece, position, board, possibleMoves);
+            return getRookMoveset(piece, position, board, possibleMoves);
         case PieceType.KNIGHT:
-            return this.getKnightMoveset(piece, position, board, possibleMoves);
+            return getKnightMoveset(piece, position, board, possibleMoves);
         case PieceType.BISHOP:
-            return this.getBishopMoveset(piece, position, board, possibleMoves);
+            return getBishopMoveset(piece, position, board, possibleMoves);
         case PieceType.QUEEN:
-            return this.getQueenMoveset(piece, position, board, possibleMoves);
+            return getQueenMoveset(piece, position, board, possibleMoves);
         case PieceType.KING:
-            return this.getKingMoveset(piece, position, board, possibleMoves);
+            return getKingMoveset(piece, position, board, possibleMoves);
         default:
             return possibleMoves;
     }
-  }
-
-  static movePiece(
+  },
+  movePiece(
     piecePosition: BoardPosition,
     newPosition: BoardPosition,
     board: Board
@@ -52,8 +51,9 @@ export class MovementService {
 
     return board
   }
+};
 
-  private static getPawnMoveset(
+  function getPawnMoveset(
     piece: Piece,
     position: BoardPosition,
     board: Board,
@@ -107,7 +107,7 @@ export class MovementService {
     return possibleMoves;
   }
 
-  private static getRookMoveset(
+  function getRookMoveset(
     piece: Piece,
     position: BoardPosition,
     board: Board,
@@ -171,7 +171,7 @@ export class MovementService {
     return possibleMoves;
   }
 
-  private static getKnightMoveset(
+  function getKnightMoveset(
     piece: Piece,
     position: BoardPosition,
     board: Board,
@@ -225,7 +225,7 @@ export class MovementService {
     return possibleMoves;
   }
   
-  private static getBishopMoveset(
+  function getBishopMoveset(
     piece: Piece,
     position: BoardPosition,
     board: Board,
@@ -264,21 +264,19 @@ export class MovementService {
     return possibleMoves;
   }
   
-  private static getQueenMoveset(
+  function getQueenMoveset(
     piece: Piece,
     position: BoardPosition,
     board: Board,
     possibleMoves: PossibleMoves
   ): PossibleMoves {
-    this.getBishopMoveset(piece, position, board, possibleMoves)
-    this.getRookMoveset(piece, position, board, possibleMoves)
-
-    
-
+    getBishopMoveset(piece, position, board, possibleMoves)
+    getRookMoveset(piece, position, board, possibleMoves)
+  
     return possibleMoves;
   }
 
-  private static getKingMoveset(
+  function getKingMoveset(
     piece: Piece,
     position: BoardPosition,
     board: Board,
@@ -293,9 +291,9 @@ export class MovementService {
     const opponentKingRowIndex = getRowIndex(opponentKingPosition);
     const opponentKingColIndex = getColIndex(opponentKingPosition);
 
-    const circle = this.getKingMovementCircle(rowIndex, colIndex)
+    const circle = getKingMovementCircle(rowIndex, colIndex)
 
-    const opponentKingCircle = this.getKingMovementCircle(opponentKingRowIndex, opponentKingColIndex);
+    const opponentKingCircle = getKingMovementCircle(opponentKingRowIndex, opponentKingColIndex);
     
     circle.filter((position) => opponentKingCircle.includes(position))
     
@@ -308,7 +306,7 @@ export class MovementService {
     return possibleMoves;
   }
 
-  private static getKingMovementCircle(rowIndex: number, colIndex: number): BoardPosition[] {
+  function getKingMovementCircle(rowIndex: number, colIndex: number): BoardPosition[] {
 
     const circle: BoardPosition[] = []
 
@@ -336,4 +334,3 @@ export class MovementService {
 
     return circle;
   }
-}
