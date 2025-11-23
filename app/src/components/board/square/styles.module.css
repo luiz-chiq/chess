@@ -55,3 +55,10 @@
     transition: rotate 0.3s, transform 0.3s;
   }
 }
+
+.destination {
+  background-color: #505050;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
