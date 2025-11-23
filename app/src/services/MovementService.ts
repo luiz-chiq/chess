@@ -11,19 +11,15 @@ import { getColIndex, getRowIndex, getBoardPositionByIndexes, getRow, getCol } f
 type Validation = (i: number, j: number) => boolean;
 
 export const MovementService = {
-
   getPossibleMoves(
     position: BoardPosition,
     board: Board
   ): PossibleMoves {
-
     const piece = board.getPiece(position)
-
-    
     const possibleMoves: PossibleMoves = new Map();
 
     if (piece == null) return possibleMoves;
-
+    
     switch (piece.type) {
         case PieceType.PAWN:
             return getPawnMoveset(piece, position, board, possibleMoves);
@@ -46,9 +42,8 @@ export const MovementService = {
     newPosition: BoardPosition,
     board: Board
   ): Board {
-
-    if (board.getPiece(piecePosition)) board.movePiece(piecePosition, newPosition)
-
+    if (board.getPiece(piecePosition))
+      board.movePiece(piecePosition, newPosition)
     return board
   }
 };
@@ -102,8 +97,6 @@ export const MovementService = {
       const movePosition = getBoardPositionByIndexes(rowIndex + direction, colIndex - 1)
       possibleMoves.set(movePosition, movePosition);
     }
-
-    // possibleMoves.set("A5", "B5");
     return possibleMoves;
   }
 
