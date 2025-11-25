@@ -1,21 +1,16 @@
+import { UserService } from '@/app/src/services/server/UserService';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
     const { user, password } = await request.json();
-
-    // Aqui você faria a validação real do usuário
-    // Por exemplo, checar no banco de dados
-    console.log(`Tentativa de login do usuário: ${user} ${password}`);``
-    if (user === 'admin' && password === '123') {
+    const validUser = UserService.validateCredentials(user, password);
+    
+    if (validUser) {
       return NextResponse.json({
         success: true,
         message: 'Login bem-sucedido!',
-        user: {
-          id: '1',
-          username: user,
-        },
-        // Você pode gerar um token JWT aqui
+        user: UserService.sanitizeUser(validUser),
         token: 'fake-jwt-token'
       });
     }
