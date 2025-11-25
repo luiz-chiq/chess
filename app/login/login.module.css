@@ -94,6 +94,16 @@
   transition: background-color 0.2s;
 }
 
+.login:disabled, .createAccount:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.login:disabled:hover, .createAccount:disabled:hover {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
 .createAccount:hover {
   background-color: #0e2e88;
 }
