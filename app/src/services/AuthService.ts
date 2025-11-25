@@ -4,4 +4,8 @@ export const AuthService = {
   async login({user, password}: {user: string; password: string}) {
     return axios.post("/api/auth/login", { user, password });
   },
+
+  async createAccount({user, password}: {user: string; password: string}) {
+    return axios.post("/api/auth/register", { user, password });
+  }
 };
