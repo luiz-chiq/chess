@@ -82,8 +82,8 @@ export default function LoginPage() {
         <div className={styles.buttonGroup}>
           <button 
             type="button"
-            className={styles.createAccount} 
-            onClick={(e) => e.preventDefault()}>
+            className={styles.createAccount}
+            onClick={() => router.push("/login/create-account")}>
             Criar conta
           </button>
           {/* TODO: implementar criação de conta */}
