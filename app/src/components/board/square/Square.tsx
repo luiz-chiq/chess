@@ -16,7 +16,6 @@ function Square({ position, color }: SquareProps) {
   const turn = useGame((state) => state.turn);
   const board = useGame((state) => state.board);
   const possibleMoves = useGame((state) => state.possibleMoves);
-  
   const setClickedPiece = useGame((state) => state.setClickedPiece);
   const movePiece = useGame((state) => state.movePiece);
   
@@ -32,10 +31,6 @@ function Square({ position, color }: SquareProps) {
     possibleMoves.get(position) === position,
   [possibleMoves, position]);
 
-  useEffect(() => {
-    console.log("123 " + possibleMoves.keys().toArray())
-  }, [possibleMoves]);
-
   const handleClick = useCallback(() => {
     if (destination)
       return movePiece(position);
@@ -43,7 +38,6 @@ function Square({ position, color }: SquareProps) {
       setClickedPiece(position);
     {possibleMoves.get(position) === position && <div className={styles.destination}/>}
   }, [destination, movePiece, position, isAllyPiece, setClickedPiece, possibleMoves]);
-
 
   return (
     <div className={`
