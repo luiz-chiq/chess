@@ -8,6 +8,10 @@ import { useGame } from '../../../hooks/zustand/useGame';
 import styles from './styles.module.css';
 import PieceImage from '../piece/Piece';
 import { useCallback, useMemo } from 'react';
+import {
+  getColIndex,
+  getRowIndex,
+} from '@/app/src/utils/utils';
 
 interface SquareProps {
   color: Color;
@@ -17,6 +21,9 @@ interface SquareProps {
 function Square({ position, color }: SquareProps) {
   const clickedPiecePosition = useGame(
     (state) => state.clickedPiecePosition
+  );
+  const showSquarePosition = useGame(
+    (state) => state.showSquarePosition
   );
   const turn = useGame((state) => state.turn);
   const board = useGame((state) => state.board);
@@ -54,6 +61,15 @@ function Square({ position, color }: SquareProps) {
     setClickedPiece,
   ]);
 
+  const collumnLabel =
+    showSquarePosition && getRowIndex(position) === 7
+      ? position[0]
+      : '';
+  const rowLabel =
+    showSquarePosition && getColIndex(position) === 0
+      ? position[1]
+      : '';
+
   return (
     <div
       className={`
@@ -67,6 +83,14 @@ function Square({ position, color }: SquareProps) {
       <PieceImage piece={piece} />
       {destination && !piece && (
         <div className={styles.destination} />
+      )}
+      {collumnLabel && (
+        <span className={styles.collumnLabel}>
+          {collumnLabel}
+        </span>
+      )}
+      {rowLabel && (
+        <span className={styles.rowLabel}>{rowLabel}</span>
       )}
     </div>
   );
