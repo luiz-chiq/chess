@@ -27,6 +27,9 @@ function Square({ position, color }: SquareProps) {
   );
   const turn = useGame((state) => state.turn);
   const board = useGame((state) => state.board);
+  const checkPosition = useGame(
+    (state) => state.forbiddenKingPosition.checkPosition
+  );
   const possibleMoves = useGame(
     (state) => state.possibleMoves
   );
@@ -61,6 +64,12 @@ function Square({ position, color }: SquareProps) {
     setClickedPiece,
   ]);
 
+  const isTarget = useMemo(() => {
+    return (
+      checkPosition === position || (destination && piece)
+    );
+  }, [checkPosition, destination, piece, position]);
+
   const collumnLabel =
     showSquarePosition && getRowIndex(position) === 7
       ? position[0]
@@ -76,7 +85,7 @@ function Square({ position, color }: SquareProps) {
       ${styles.square} ${styles[color]}
       ${clickedPiecePosition == position ? styles.clicked : styles.notClicked}
       ${isAllyPiece && styles.allyPiece}
-      ${destination && piece && styles.checked}
+      ${isTarget && styles.checked}
       `}
       onClick={handleClick}
     >
