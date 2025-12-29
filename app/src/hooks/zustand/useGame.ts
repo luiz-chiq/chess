@@ -4,6 +4,7 @@ import { Board } from '@/app/src/types/Board';
 import {
   BoardPosition,
   Color,
+  ForbiddenKingPosition,
   PieceType,
   PossibleMoves,
 } from '@/app/src/types/types';
@@ -13,7 +14,7 @@ interface GameState {
   board: Board;
   player: Color;
   clickedPiecePosition: BoardPosition | null;
-  checkPosition: BoardPosition | null;
+  forbiddenKingPosition: ForbiddenKingPosition;
   turn: Color;
   possibleMoves: PossibleMoves;
   showSquarePosition: boolean;
@@ -37,7 +38,10 @@ export const useGame = create<GameState>()((set) => ({
   board: new Board(),
   player: Color.WHITE,
   clickedPiecePosition: null,
-  checkPosition: null,
+  forbiddenKingPosition: {
+    unsafePositions: new Set(),
+    checkPosition: null,
+  },
   turn: Color.WHITE,
   possibleMoves: new Map(),
   showSquarePosition: true,
