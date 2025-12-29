@@ -1,17 +1,11 @@
 'use client';
 
-import {
-  BoardPosition,
-  Color,
-} from '@/app/src/types/types';
+import { BoardPosition, Color } from '@/app/src/types/types';
 import { useGame } from '../../../hooks/zustand/useGame';
 import styles from './styles.module.css';
 import PieceImage from '../piece/Piece';
 import { useCallback, useMemo } from 'react';
-import {
-  getColIndex,
-  getRowIndex,
-} from '@/app/src/utils/utils';
+import { getColIndex, getRowIndex } from '@/app/src/utils/utils';
 
 interface SquareProps {
   color: Color;
@@ -30,12 +24,8 @@ function Square({ position, color }: SquareProps) {
   const checkPosition = useGame(
     (state) => state.forbiddenKingPosition.checkPosition
   );
-  const possibleMoves = useGame(
-    (state) => state.possibleMoves
-  );
-  const setClickedPiece = useGame(
-    (state) => state.setClickedPiece
-  );
+  const possibleMoves = useGame((state) => state.possibleMoves);
+  const setClickedPiece = useGame((state) => state.setClickedPiece);
   const movePiece = useGame((state) => state.movePiece);
 
   const piece = board.getPiece(position);
@@ -65,9 +55,7 @@ function Square({ position, color }: SquareProps) {
   ]);
 
   const isTarget = useMemo(() => {
-    return (
-      checkPosition === position || (destination && piece)
-    );
+    return checkPosition === position || (destination && piece);
   }, [checkPosition, destination, piece, position]);
 
   const collumnLabel =
@@ -94,9 +82,7 @@ function Square({ position, color }: SquareProps) {
         <div className={styles.destination} />
       )}
       {collumnLabel && (
-        <span className={styles.collumnLabel}>
-          {collumnLabel}
-        </span>
+        <span className={styles.collumnLabel}>{collumnLabel}</span>
       )}
       {rowLabel && (
         <span className={styles.rowLabel}>{rowLabel}</span>
