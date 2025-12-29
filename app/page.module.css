@@ -93,10 +93,25 @@ a.secondary {
   border-color: var(--button-secondary-border);
 }
 
-.boardWrapper {
+.content {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  height: 500px;
+  height: 100%;
+  flex: 1;
+}
+
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.boardContainer {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .infoBar {
@@ -121,8 +136,65 @@ a.secondary {
   }
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: row;
+}
 
-/* Enable hover only on non-touch devices */
+.sidebar {
+  border-left: 1px solid var(--button-secondary-border);
+  background-color: #1a1a1a;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 18rem;
+  padding: 14px;
+  display: flex;
+}
+
+.userInfo {
+  background-color: #282828;
+  border-radius: 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  display: flex;
+  bottom: 0;
+  padding-left: 1rem;
+  button {
+    margin-bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    background: #424242;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+  }
+}
+
+.gameInfo {
+  height: 5rem;
+  background-color: rgb(58, 58, 58);
+  display: flex;
+
+  border-radius: 0 0 1rem 1rem;
+
+  div {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
     background: var(--button-primary-hover);

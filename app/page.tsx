@@ -6,10 +6,12 @@ import { useRouter } from 'next/navigation';
 import Board from './src/components/board/Board';
 import { useUser } from './src/hooks/zustand/useUser';
 import { useEffect } from 'react';
+import { LuLogOut } from 'react-icons/lu';
 
 export default function Page() {
   const router = useRouter();
   const passTurn = useGame((state) => state.passTurn);
+  const username = useUser((state) => state.username);
   const toggleShowSquarePosition = useGame(
     (state) => state.toggleShowSquarePosition
   );
@@ -30,26 +32,36 @@ export default function Page() {
   }
 
   return (
-    <>
-      <button onClick={() => router.replace('/login')}>
-        Logout
-      </button>
-      <div className={styles.infoBar}>
-        <div>
-          <p>Current turn:</p>
-          <img src={`/assets/pieces/${turn}/king.svg`} />
-          <button onClick={passTurn}>Pass turn</button>
-        </div>
-        <div>
-          <p>Show position:</p>
-          <button onClick={toggleShowSquarePosition}>
-            {showSquarePosition ? 'Deactivate' : 'Activate'}
+    <div className={styles.container}>
+      <aside className={styles.sidebar}>
+        <div className={styles.infoBar}></div>
+        <div className={styles.userInfo}>
+          <p>{username}</p>
+          <button onClick={() => router.replace('/login')}>
+            <LuLogOut size={20} />
           </button>
         </div>
+      </aside>
+      <div className={styles.content}>
+        <div className={styles.gameContainer}>
+          <div className={styles.gameInfo}>
+            <div>
+              <p>Current turn:</p>
+              <img src={`/assets/pieces/${turn}/king.svg`} />
+              <button onClick={passTurn}>Pass turn</button>
+            </div>
+            <div>
+              <p>Show position:</p>
+              <button onClick={toggleShowSquarePosition}>
+                {showSquarePosition ? 'Deactivate' : 'Activate'}
+              </button>
+            </div>
+          </div>
+          <div className={styles.boardContainer}>
+            <Board />
+          </div>
+        </div>
       </div>
-      <div className={styles.boardWrapper}>
-        <Board />
-      </div>
-    </>
+    </div>
   );
 }
