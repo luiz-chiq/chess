@@ -28,10 +28,7 @@ interface GameState {
   setPossibleMoves: (possibleMoves: PossibleMoves) => void;
   toggleShowSquarePosition: () => void;
   setShowPromotionModal: (show: boolean) => void;
-  addPieceToBasket: (
-    color: Color,
-    pieceType: PieceType
-  ) => void;
+  addPieceToBasket: (color: Color, pieceType: PieceType) => void;
 }
 
 export const useGame = create<GameState>()((set) => ({
@@ -53,16 +50,13 @@ export const useGame = create<GameState>()((set) => ({
     set((state) => {
       return {
         possibleMoves: new Map(),
-        turn:
-          state.turn == Color.WHITE
-            ? Color.BLACK
-            : Color.WHITE,
+        turn: state.turn == Color.WHITE ? Color.BLACK : Color.WHITE,
         clickedPiecePosition: null,
       };
     }),
   movePiece: (to) =>
     set((state) => {
-      const piece = state.board.getPiece(to);
+      const piece = state.board.getPieceByPosition(to);
       if (piece) {
         state.addPieceToBasket(piece.color, piece.type);
       }

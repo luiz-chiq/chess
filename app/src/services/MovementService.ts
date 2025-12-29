@@ -18,7 +18,7 @@ export const MovementService = {
     position: BoardPosition,
     board: Board
   ): PossibleMoves {
-    const piece = board.getPiece(position);
+    const piece = board.getPieceByPosition(position);
     const possibleMoves: PossibleMoves = new Map();
 
     if (piece == null) return possibleMoves;
@@ -45,7 +45,7 @@ export const MovementService = {
     newPosition: BoardPosition,
     board: Board
   ): Board {
-    if (board.getPiece(piecePosition))
+    if (board.getPieceByPosition(piecePosition))
       board.movePiece(piecePosition, newPosition);
     return board;
   },
@@ -72,13 +72,13 @@ function getPawnMoves(
     (piece.color === Color.WHITE && rowIndex == 1) ||
     (piece.color === Color.BLACK && rowIndex == 6);
   const isNextSquareAvailable: boolean =
-    board.getPiece(
+    board.getPieceByPosition(
       getBoardPositionByIndexes(rowIndex + direction, colIndex)
     ) === null;
   const isSecondSquareAvaliable: boolean =
     isFirstMove &&
     isNextSquareAvailable &&
-    board.getPiece(
+    board.getPieceByPosition(
       getBoardPositionByIndexes(rowIndex + direction * 2, colIndex)
     ) === null;
 

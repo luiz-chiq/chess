@@ -11,7 +11,7 @@ export const MovementPatternService = {
     position: BoardPosition,
     board: Board
   ): BoardPosition[] {
-    const piece = board.getPiece(position);
+    const piece = board.getPieceByPosition(position);
     const pattern: BoardPosition[] = [];
     const row = getRowIndex(position);
     const col = getColIndex(position);
@@ -29,7 +29,7 @@ export const MovementPatternService = {
     position: BoardPosition,
     board: Board
   ): BoardPosition[] {
-    const piece = board.getPiece(position);
+    const piece = board.getPieceByPosition(position);
     const pattern: BoardPosition[] = [];
     const row = getRowIndex(position);
     const col = getColIndex(position);
@@ -48,7 +48,7 @@ export const MovementPatternService = {
     position: BoardPosition,
     board: Board
   ): BoardPosition[] {
-    const piece = board.getPiece(position);
+    const piece = board.getPieceByPosition(position);
     const pattern: BoardPosition[] = [];
     const row = getRowIndex(position);
     const col = getColIndex(position);
@@ -70,7 +70,7 @@ export const MovementPatternService = {
     position: BoardPosition,
     board: Board
   ): BoardPosition[] {
-    const piece = board.getPiece(position);
+    const piece = board.getPieceByPosition(position);
     const pattern: BoardPosition[] = [];
     const rowIndex = getRowIndex(position);
     const colIndex = getColIndex(position);
@@ -103,7 +103,7 @@ export const MovementPatternService = {
     position: BoardPosition,
     board: Board
   ): BoardPosition[] {
-    const piece = board.getPiece(position);
+    const piece = board.getPieceByPosition(position);
     const pattern: BoardPosition[] = [];
     const rowIndex = getRowIndex(position);
     const colIndex = getColIndex(position);
@@ -158,7 +158,7 @@ function lineIterator(
     col += verticalDirection;
 
     const position = getBoardPositionByIndexes(row, col);
-    const pieceAtPosition = board.getPiece(position);
+    const pieceAtPosition = board.getPieceByPosition(position);
 
     if (pieceAtPosition?.color === piece.color) break;
 
@@ -191,7 +191,9 @@ function offsetInterator(
       newCol <= LIMIT
     ) {
       const movePosition = getBoardPositionByIndexes(newRow, newCol);
-      if (board.getPiece(movePosition)?.color !== piece.color)
+      if (
+        board.getPieceByPosition(movePosition)?.color !== piece.color
+      )
         initialArray.push(movePosition);
     }
   });

@@ -70,10 +70,13 @@ export class Board {
     }
   }
 
-  getPiece(position: BoardPosition): Piece | null {
-    return this.board[getRowIndex(position)][
-      getColIndex(position)
-    ].piece;
+  getPieceByPosition(position: BoardPosition): Piece | null {
+    return this.board[getRowIndex(position)][getColIndex(position)]
+      .piece;
+  }
+
+  getPieceByIndexes(row: number, col: number): Piece | null {
+    return this.board[row][col].piece;
   }
 
   movePiece(from: BoardPosition, to: BoardPosition): void {
@@ -109,8 +112,7 @@ export class Board {
   ) {
     const row = getRowIndex(position);
     const col = getColIndex(position);
-    if (this.board[row][col].piece?.type !== PieceType.PAWN)
-      return;
+    if (this.board[row][col].piece?.type !== PieceType.PAWN) return;
     if (row !== 0 && row !== 7) return;
     if (newPieceType === PieceType.KING) return;
     this.board[row][col].piece.type = newPieceType;
@@ -120,10 +122,7 @@ export class Board {
     for (let i = 0; i <= 7; i++) {
       for (let j = 0; j <= 7; j++) {
         const piece = this.board[i][j].piece;
-        if (
-          piece?.type === PieceType.KING &&
-          piece.color === color
-        )
+        if (piece?.type === PieceType.KING && piece.color === color)
           return getBoardPositionByIndexes(i, j);
       }
     }

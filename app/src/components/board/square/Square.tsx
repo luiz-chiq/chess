@@ -28,7 +28,7 @@ function Square({ position, color }: SquareProps) {
   const setClickedPiece = useGame((state) => state.setClickedPiece);
   const movePiece = useGame((state) => state.movePiece);
 
-  const piece = board.getPiece(position);
+  const piece = board.getPieceByPosition(position);
 
   const isAllyPiece = useMemo(
     () =>
