@@ -34,3 +34,7 @@ export type PossibleMoves = Map<
   BoardPosition,
   BoardPosition
 >;
+export type ForbiddenKingPosition = {
+  unsafePositions: Set<BoardPosition>;
+  checkPosition: BoardPosition | null;
+};
