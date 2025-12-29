@@ -58,12 +58,12 @@ export class Board {
       PieceType.KNIGHT,
       PieceType.ROOK,
     ];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < this.BOARD_SIZE; i++) {
       this.board[0][i].piece = {
         type: backRow[i],
         color: Color.WHITE,
       };
-      this.board[7][i].piece = {
+      this.board[this.BOARD_SIZE - 1][i].piece = {
         type: backRow[i],
         color: Color.BLACK,
       };
